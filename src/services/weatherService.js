@@ -5,7 +5,7 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 // Get coordinates for a city
 export const getCoordinates = async (city) => {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-  
+
   if (!apiKey) {
     throw new Error('Weather API key not configured');
   }
@@ -28,10 +28,34 @@ export const getCoordinates = async (city) => {
   return response.data[0];
 };
 
+// Get city suggestions
+export const getCitySuggestions = async (query) => {
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('Weather API key not configured');
+  }
+
+  if (!query || query.trim() === '') return [];
+
+  const response = await axios.get(
+    `https://api.openweathermap.org/geo/1.0/direct`,
+    {
+      params: {
+        q: query,
+        limit: 5,
+        appid: apiKey,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 // Get current weather
 export const getCurrentWeather = async (lat, lon) => {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-  
+
   if (!apiKey) {
     throw new Error('Weather API key not configured');
   }
@@ -51,7 +75,7 @@ export const getCurrentWeather = async (lat, lon) => {
 // Get 5-day forecast
 export const getForecast = async (lat, lon) => {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-  
+
   if (!apiKey) {
     throw new Error('Weather API key not configured');
   }
@@ -68,9 +92,9 @@ export const getForecast = async (lat, lon) => {
   // Group by day and get one forecast per day (noon)
   const forecasts = response.data.list;
   const dailyForecasts = [];
-  
+
   const seenDates = new Set();
-  
+
   for (const forecast of forecasts) {
     const date = forecast.dt_txt.split(' ')[0];
     if (!seenDates.has(date) && dailyForecasts.length < 5) {

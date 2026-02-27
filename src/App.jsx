@@ -20,7 +20,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [city, setCity] = useState('');
-  
+
   // Data states
   const [weather, setWeather] = useState(null);
   const [forecasts, setForecasts] = useState([]);
@@ -33,14 +33,14 @@ function App() {
     setLoading(true);
     setError(null);
     setSearched(true);
-    
+
     // Reset previous data
     setWeather(null);
     setForecasts([]);
     setAttractions([]);
     setCountry(null);
     setTravelPlan(null);
-    
+
     try {
       // Step 1: Get coordinates for the city
       const coordinates = await getCoordinates(cityName);
@@ -121,16 +121,17 @@ function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <WeatherCard weather={weather} />
               <Forecast forecasts={forecasts} />
-            </div>
-
-            {/* Country Info and Attractions */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Country Info */}
               <CountryInfo country={country} />
-              <Attractions attractions={attractions} />
+              {/* AI Travel Plan */}
+              <TravelPlan plan={travelPlan} />
             </div>
 
-            {/* AI Travel Plan */}
-            <TravelPlan plan={travelPlan} />
+            {/* Attractions */}
+            <div className="grid grid-cols-1 gap-6">
+              <Attractions attractions={attractions} city={city} />
+            </div>
+
           </div>
         )}
 

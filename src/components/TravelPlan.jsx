@@ -20,7 +20,7 @@ const TravelPlan = ({ plan }) => {
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800">AI Travel Plan</h3>
+        <h3 className="text-xl font-bold text-gray-800">Travel Plan</h3>
         <div className="flex items-center gap-2 bg-blue-100 px-3 py-1 rounded-full">
           <span className="text-xl">{getWeatherEmoji()}</span>
           <span className="text-sm text-blue-700 capitalize">

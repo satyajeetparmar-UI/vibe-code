@@ -6,9 +6,9 @@ const WIKIPEDIA_API_URL = 'https://en.wikipedia.org/w/api.php';
 // Get tourist attractions using Foursquare API
 export const getAttractionsFoursquare = async (lat, lon) => {
   const apiKey = import.meta.env.VITE_FOURSQUARE_API_KEY;
-  
-  if (!apiKey) {
-    throw new Error('Foursquare API key not configured');
+
+  if (!apiKey || !apiKey.startsWith('fsq3')) {
+    throw new Error('Foursquare API key not configured or invalid (must start with fsq3...)');
   }
 
   try {
@@ -54,10 +54,10 @@ export const getAttractionsWikipedia = async (city, country) => {
     });
 
     const searchResults = searchResponse.data.query?.search || [];
-    
+
     // Get page details for each result
     const pageIds = searchResults.map(r => r.pageid).join('|');
-    
+
     if (!pageIds) {
       return [];
     }
@@ -77,7 +77,7 @@ export const getAttractionsWikipedia = async (city, country) => {
     });
 
     const pages = detailsResponse.data.query?.pages || {};
-    
+
     return Object.values(pages).map(page => ({
       name: page.title,
       description: page.extract || 'No description available',
@@ -92,7 +92,7 @@ export const getAttractionsWikipedia = async (city, country) => {
 // Main function to get attractions - tries Foursquare first, falls back to Wikipedia
 export const getAttractions = async (lat, lon, city, country) => {
   // Try Foursquare first
-  if (import.meta.env.VITE_FOURSQUARE_API_KEY) {
+  if (import.meta.env.VITE_FOURSQUARE_API_KEY && import.meta.env.VITE_FOURSQUARE_API_KEY.startsWith('fsq3')) {
     try {
       return await getAttractionsFoursquare(lat, lon);
     } catch (error) {
