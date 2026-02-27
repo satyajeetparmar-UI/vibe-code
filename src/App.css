@@ -29,6 +29,7 @@ html {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -70,3 +71,18 @@ button:not(:disabled):active {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
+/* Earth spinning animation */
+@keyframes spinGlobe {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  display: inline-block;
+  animation: spinGlobe 5s linear infinite;
+}

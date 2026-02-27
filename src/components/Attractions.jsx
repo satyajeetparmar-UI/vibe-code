@@ -39,7 +39,7 @@ const Attractions = ({ attractions, city }) => {
                   src={attraction.image}
                   alt={attraction.name}
                   className="w-full h-48 object-cover rounded-lg mt-2"
-                /> : <h2 className="text-2xl text-center mt-10">Image Not Available</h2>}
+                /> : <h2 className="text-2xl text-center mt-10 text-red-700">Image Not Available</h2>}
 
               </div>
             </div>

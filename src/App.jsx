@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 // Services
@@ -15,11 +15,30 @@ import Attractions from './components/Attractions';
 import CountryInfo from './components/CountryInfo';
 import TravelPlan from './components/TravelPlan';
 import Loader from './components/Loader';
+import Footer from './components/Footer';
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [city, setCity] = useState('');
+
+  // Background images
+  const travelImages = [
+    'https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=2662&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2670&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2621&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1505832018823-50331d70d237?q=80&w=1208&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % travelImages.length);
+    }, 1 * 60 * 1000); // Change image every 1 minutes
+
+    return () => clearInterval(interval);
+  }, [travelImages.length]);
 
   // Data states
   const [weather, setWeather] = useState(null);
@@ -83,14 +102,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div
+      className="main-content min-h-screen py-8 px-4 bg-cover bg-center bg-fixed bg-no-repeat transition-all duration-1000 ease-in-out"
+      style={{ backgroundImage: `url('${travelImages[currentImageIndex]}')` }}
+    >
+      {/* <div className="absolute inset-0 bg-black/30 z-0 pointer-events-none transition-all duration-1000 ease-in-out"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-0 pointer-events-none"></div> */}
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-            ✈️ AI Travel Planner
+          <h1 className="text-4xl md:text-5xl font-bold text-blue-600 text-shadow-lg mb-2">
+            ✈️ Travel Planner
           </h1>
-          <p className="text-white/80 text-lg">
+          <p className="text-blue-600/80 text-shadow-md text-lg">
             Discover weather, attractions, and create your perfect trip
           </p>
         </div>
@@ -107,14 +131,14 @@ function App() {
         )}
 
         {/* Loading */}
-        {loading && <Loader message="Finding the best travel info for you..." />}
+        {loading && <Loader className="text-white" message="Finding the best travel info for you..." />}
 
         {/* Content */}
         {!loading && !error && searched && (
           <div className="space-y-6">
             {/* City Name */}
             <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-white">{city}</h2>
+              <h2 className="text-5xl font-bold text-black/70 text-shadow-sm text-shadow-white">{city}</h2>
             </div>
 
             {/* Weather and Forecast Row */}
@@ -138,7 +162,7 @@ function App() {
         {/* Empty State */}
         {!loading && !error && !searched && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🌍</div>
+            <div className="text-8xl mb-4 spin-slow">🌍</div>
             <h2 className="text-2xl font-bold text-white mb-2">
               Start Your Adventure!
             </h2>
@@ -149,9 +173,7 @@ function App() {
         )}
 
         {/* Footer */}
-        <div className="text-center mt-12 text-white/60 text-sm">
-          <p>© 2024 AI Travel Planner • Powered by OpenWeatherMap & REST Countries</p>
-        </div>
+        <Footer />
       </div>
     </div>
   );
