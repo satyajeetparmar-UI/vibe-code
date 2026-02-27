@@ -1,0 +1,154 @@
+PROJECT NAME: AI Travel Planner (No Login)
+
+GOAL:
+Build a complete React + Vite web application that allows users to enter a destination city and get:
+1. Current weather
+2. 5-day forecast
+3. Nearby tourist attractions
+4. Country details
+5. A simple AI-generated 1-day travel plan (rule-based, no paid AI API)
+
+No authentication system required.
+
+TECH STACK:
+- React (Vite)
+- Tailwind CSS
+- Axios
+- Public APIs only
+- Environment variables for API keys
+- Clean folder structure
+- Fully responsive UI
+- Modern card-based layout
+
+FOLDER STRUCTURE:
+
+/src
+  /components
+    SearchBar.jsx
+    WeatherCard.jsx
+    Forecast.jsx
+    Attractions.jsx
+    CountryInfo.jsx
+    TravelPlan.jsx
+    Loader.jsx
+  /services
+    weatherService.js
+    geoService.js
+  /utils
+    generatePlan.js
+  App.jsx
+  main.jsx
+
+---------------------------------------------------
+
+FEATURE DETAILS:
+
+1️⃣ Search Functionality:
+- User enters city name
+- On submit:
+  - Fetch coordinates from OpenWeather Geocoding API
+  - Fetch current weather
+  - Fetch 5-day forecast
+  - Fetch country info
+  - Fetch nearby tourist attractions
+
+2️⃣ Weather API:
+Use OpenWeatherMap free tier:
+- Geocoding API
+- Current Weather API
+- 5-day Forecast API
+
+Store API key in .env:
+VITE_WEATHER_API_KEY=your_api_key
+
+3️⃣ Tourist Attractions:
+Use Foursquare Places API (free tier)
+OR fallback:
+Use Wikipedia API search for "Top tourist attractions in {city}"
+
+4️⃣ Country Info:
+Use REST Countries API:
+https://restcountries.com/v3.1/name/{country}
+
+Display:
+- Flag
+- Capital
+- Currency
+- Population
+
+5️⃣ AI Travel Plan (No Paid AI):
+Create utility function generatePlan.js
+Logic:
+- Based on weather condition (Rain, Clear, Clouds)
+- Based on number of attractions
+- Return formatted 1-day itinerary:
+  Morning
+  Afternoon
+  Evening
+
+Example Output:
+Morning: Visit {Top Attraction}
+Afternoon: Explore local cafes
+Evening: Sunset viewpoint visit
+
+---------------------------------------------------
+
+UI REQUIREMENTS:
+
+- Use Tailwind CSS
+- Gradient background
+- Glassmorphism cards
+- Rounded-xl
+- Shadow-lg
+- Smooth hover transitions
+- Fully responsive
+- Loading spinner
+- Error state component
+
+Layout:
+- Centered container (max-w-6xl mx-auto)
+- Grid layout for cards
+- Dark theme support
+
+---------------------------------------------------
+
+STATE MANAGEMENT:
+Use useState and useEffect only.
+No Redux.
+
+---------------------------------------------------
+
+ERROR HANDLING:
+- If city not found → show error message
+- If API fails → show fallback message
+- Handle empty input validation
+
+---------------------------------------------------
+
+LOADING STATE:
+Show loader while fetching APIs.
+
+---------------------------------------------------
+
+EXTRA:
+Add:
+- Favicon
+- Page title: "AI Travel Planner"
+- Clean README with setup steps
+- Deployment instructions for Vercel
+
+---------------------------------------------------
+
+DELIVERABLES:
+1. Complete working project code
+2. .env example file
+3. README.md
+4. Instructions to run:
+   npm install
+   npm run dev
+
+IMPORTANT:
+Do NOT use any paid APIs.
+Keep everything beginner-friendly and clean.
+Write modular code.
+Add comments.
